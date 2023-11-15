@@ -13,13 +13,12 @@ name: Semaphore PHP Example Pipeline
 # and https://docs.semaphoreci.com/article/32-ubuntu-1804-image
 agent:
   machine:
-    type: e1-standard-2
-    os_image: ubuntu1804
+    type: s1-supernode-1
+    os_image: ''
+  containers:
+    - name: main
+      image: semaphoreci/php:7.4-node-browsers
 
-global_job_config:
-  prologue:
-    commands:
-      - sem-version php 7.4
 # Blocks are the heart of a pipeline and are executed sequentially.
 # Each block has a task that defines one or more jobs. Jobs define the
 # commands to execute.
@@ -117,6 +116,6 @@ blocks:
           commands:
             - checkout
             # We pull latest symfony cli docker image
-            - docker pull solune/symfony:7.4-cli
+            - sudo docker pull solune/symfony:7.4-cli
             # And finally, run the check
-            - docker run --rm -v $(pwd):$(pwd) -w $(pwd) solune/symfony:7.4-cli symfony check:security
+            - sudo docker run --rm -v $(pwd):$(pwd) -w $(pwd) solune/symfony:7.4-cli symfony check:security
