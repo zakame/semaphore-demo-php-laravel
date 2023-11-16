@@ -111,11 +111,11 @@ blocks:
 
   - name: "Run Security Tests"
     task:
+      prologue:
+        commands:
+          - curl -sS https://get.symfony.com/cli/installer | sudo bash -s - --install-dir=/usr/local/bin
       jobs:
         - name: security-checker
           commands:
             - checkout
-            # We pull latest symfony cli docker image
-            - sudo docker pull solune/symfony:7.4-cli
-            # And finally, run the check
-            - sudo docker run --rm -v $(pwd):$(pwd) -w $(pwd) solune/symfony:7.4-cli symfony check:security
+            - symfony check:security
